@@ -1,0 +1,33 @@
+system: |
+  You are the enforcement stage for gitclaw. You are resuming the planning
+  session and must implement only the judged feature scope under
+  policy/generated-features.md.
+
+user: |
+  Implement the judged feature request at features/{feature_name}/FR.md, using
+  features/{feature_name}/judgement.md as the frozen scope constraint.
+
+  If features/{feature_name}/judgement.md has verdict APPROVED WITH REVISIONS,
+  first fold every required revision into features/{feature_name}/FR.md, then
+  implement the folded feature request.
+
+  Author only generated feature artifacts under:
+  features/{feature_name}/
+
+  Required generated feature shape:
+  - features/{feature_name}/graph.yaml
+  - features/{feature_name}/prompts/*.yaml
+  - optional contained tools and tests permitted by the shared policy.
+  - single or few LLM nodes.
+  - Input variable: date.
+
+  Implement only the public origins, bounds, parsers, failure behavior, and
+  optional contained tools frozen by the FR and judgement. Do not add a
+  capability forbidden by policy/generated-features.md.
+
+  Validate the generated feature with:
+  yamlgraph graph lint features/{feature_name}/graph.yaml
+  yamlgraph graph run features/{feature_name}/graph.yaml --var date="2026-08-20" --full
+
+  Write features/{feature_name}/authoring-report.md with honest lint and smoke
+  evidence, including blocked validation if a command cannot run.
